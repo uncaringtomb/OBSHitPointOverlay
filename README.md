@@ -5,7 +5,7 @@ The below variables need to be changed in order for the script to change OBS set
 ![Required variables changes](/Images/Variables.png)
 
 **Sources** is the name of the source layer in OBS 
-![OBS source name example](images/OBSSourceName.png)
+![OBS source name example](/Images/OBSSourceName.png)
 
 **Filter** is the name of the filter of the source above in OBS 
 ![OBS filter name example](/Images/Filters.png)
