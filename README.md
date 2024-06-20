@@ -1,4 +1,7 @@
 # OBSHitPointOverlay
+
+**note OBS is required to not have authentication for script to connect to OBS webhook**
+
 Python script that takes the health information from D&amp;D beyond and changes the opacity of a specified layer in OBS
 
 The below variables need to be changed in order for the script to change OBS settings
