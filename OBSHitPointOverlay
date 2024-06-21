@@ -3,9 +3,9 @@ import json
 import requests
 import re
 
-Sources = "" # Change this to the Sources ID on OBS 
-Filter = "" # Change this to the filter ID of the above Sources on OBS
-CharacterID = "" # Change this to the ID of the character on DnD Beyond
+# Sources = "" # Change this to the Sources ID on OBS 
+# Filter = "" # Change this to the filter ID of the above Sources on OBS
+# CharacterID = "" # Change this to the ID of the character on DnD Beyond
 
 # THE WEBSOCKET MUST HAVE NO AUTHENTICATION TO MAKE THIS WORK
 ws_url = "ws://localhost:4444" # Change this to the url of the OBS webSocket or change OBS info to this

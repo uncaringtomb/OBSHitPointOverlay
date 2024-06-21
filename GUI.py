@@ -7,29 +7,30 @@ def submit():
     Filter = entry3.get()
     CharacterID = entry4.get()
 
-    messagebox.showinfo("Inputs", f"Input 1: {input1}\nInput 2: {input2}\nInput 3: {input3}\nInput 4: {input4}")
+    messagebox.showinfo("Inputs", f"Input 1: {ws_url}\nInput 2: {Sources}\nInput 3: {Filter}\nInput 4: {CharacterID}")
 
 root = tk.Tk()
-root.title("Input Form")
+root.title("OBSHitPointSync")
 
-tk.Label(root, text="Input 1").grid(row=0, column=0)
-entry1 = tk.Entry(root)
+tk.Label(root, text="OBS URL").grid(column=0, row=0, padx=10, pady=5)
+entry1 = tk.Entry(root, width=50)
 entry1.grid(row=0, column=1)
+entry1.insert(0, "ws://localhost:4444")
 
-tk.Label(root, text="Input 2").grid(row=1, column=0)
-entry2 = tk.Entry(root)
+tk.Label(root, text="Source Name").grid(row=1, column=0, padx=10, pady=5)
+entry2 = tk.Entry(root, width=50)
 entry2.grid(row=1, column=1)
 
-tk.Label(root, text="Input 3").grid(row=2, column=0)
-entry3 = tk.Entry(root)
+tk.Label(root, text="Filter Name").grid(row=2, column=0, padx=10, pady=5)
+entry3 = tk.Entry(root, width=50)
 entry3.grid(row=2, column=1)
 
-tk.Label(root, text="Input 4").grid(row=3, column=0)
-entry4 = tk.Entry(root)
+tk.Label(root, text="Character ID").grid(row=3, column=0, padx=10, pady=5)
+entry4 = tk.Entry(root, width=50)
 entry4.grid(row=3, column=1)
 
-# Create and place the submit button
+
 submit_button = tk.Button(root, text="Submit", command=submit)
-submit_button.grid(row=4, column=0, columnspan=2)
+submit_button.grid(row=4, column=0, columnspan=2, padx=10, pady=5)
 
 root.mainloop()
