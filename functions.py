@@ -3,13 +3,6 @@ import json
 import requests
 import re
 
-# Sources = "" # Change this to the Sources ID on OBS 
-# Filter = "" # Change this to the filter ID of the above Sources on OBS
-# CharacterID = "" # Change this to the ID of the character on DnD Beyond
-
-# THE WEBSOCKET MUST HAVE NO AUTHENTICATION TO MAKE THIS WORK
-ws_url = "ws://localhost:4444" # Change this to the url of the OBS webSocket or change OBS info to this
-
 # Define headers for requests
 headers = {"User-Agent": "Mozilla/5.0"}
 
@@ -18,9 +11,9 @@ def fetch_value(url, pattern):
     response = requests.get(url, headers=headers)
     match = re.search(pattern, response.text)
     if match:
-        return int(match.group(1)) 
-    else: 
-        None
+        return int(match.group(1))
+    else:
+        return None
 
 # Calculate the percentage of removed hit points to base hit points
 def calculate_percentage(url):
@@ -29,7 +22,7 @@ def calculate_percentage(url):
     if base and removed:
         return removed / base
     else:
-        None
+        return None
 
 # WebSocket event handlers
 def on_message(ws, message):
@@ -41,8 +34,8 @@ def on_error(ws, error):
 def on_close(ws, close_status_code, close_msg):
     print("### WebSocket Closed ###")
 
-def on_open(ws):
-    url = f"https://character-service.dndbeyond.com/character/v5/character/{CharacterID}"
+def on_open(ws, sources, filter_name, character_id):
+    url = f"https://character-service.dndbeyond.com/character/v5/character/{character_id}"
     percentage = calculate_percentage(url)
 
     def send_filter_settings():
@@ -53,8 +46,8 @@ def on_open(ws):
                     "requestId": 2,
                     "requestType": "SetSourceFilterSettings",
                     "requestData": {
-                        "sourceName": Sources,
-                        "filterName": Filter,
+                        "sourceName": sources,
+                        "filterName": filter_name,
                         "filterSettings": {"opacity": percentage}
                     }
                 }
@@ -63,27 +56,24 @@ def on_open(ws):
 
     print("WebSocket Opened")
     ws.send(json.dumps({
-        "op": 1, 
+        "op": 1,
         "d": {
-            "rpcVersion": 1, 
+            "rpcVersion": 1,
             "authentication": None
         }
     }))
-    
+
     while True:
         new_percentage = calculate_percentage(url)
         if percentage != new_percentage:
             percentage = new_percentage
             send_filter_settings()
 
-def main():
+def start_websocket(ws_url, sources, filter_name, character_id):
     websocket.enableTrace(True)
-    ws = websocket.WebSocketApp(ws_url, 
-                                on_message=on_message, 
-                                on_error=on_error, 
-                                on_close=on_close, 
-                                on_open=on_open)
+    ws = websocket.WebSocketApp(ws_url,
+                                on_message=on_message,
+                                on_error=on_error,
+                                on_close=on_close,
+                                on_open=lambda ws: on_open(ws, sources, filter_name, character_id))
     ws.run_forever()
-
-if __name__ == "__main__":
-    main()
