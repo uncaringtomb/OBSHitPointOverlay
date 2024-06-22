@@ -19,7 +19,9 @@ def fetch_value(url, pattern):
 def calculate_percentage(url):
     base = fetch_value(url, r'"baseHitPoints"\s*:\s*(\d+)')
     removed = fetch_value(url, r'"removedHitPoints"\s*:\s*(\d+)')
-    if base and removed:
+    if not removed and base:
+        return 0
+    elif base and removed:
         return removed / base
     else:
         return None
@@ -37,6 +39,7 @@ def on_close(ws, close_status_code, close_msg):
 def on_open(ws, sources, filter_name, character_id):
     url = f"https://character-service.dndbeyond.com/character/v5/character/{character_id}"
     percentage = calculate_percentage(url)
+    
 
     def send_filter_settings():
         if percentage is not None:
@@ -62,7 +65,7 @@ def on_open(ws, sources, filter_name, character_id):
             "authentication": None
         }
     }))
-
+    send_filter_settings()
     while True:
         new_percentage = calculate_percentage(url)
         if percentage != new_percentage:
