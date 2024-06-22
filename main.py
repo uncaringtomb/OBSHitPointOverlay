@@ -1,5 +1,5 @@
 import tkinter as tk
-from gui import OBSHitPointSyncForm
+from GUI import OBSHitPointSyncForm
 from functions import start_websocket
 
 def main():
